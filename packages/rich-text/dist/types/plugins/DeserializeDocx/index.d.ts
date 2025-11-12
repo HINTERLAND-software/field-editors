@@ -1,1 +1,0 @@
-export { createDeserializeDocxPlugin } from './createDeserializeDocxPlugin';

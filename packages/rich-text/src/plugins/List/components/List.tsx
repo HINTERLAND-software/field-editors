@@ -25,13 +25,101 @@ const checkmarkListStyle = css`
     padding-left: 1.75rem;
 
     &::before {
-      content: '✓';
+      content: '☑️';
       position: absolute;
       left: 0;
       top: 0;
-      color: ${tokens.green600};
-      font-weight: bold;
-      font-size: 1.1em;
+      font-size: 1em;
+    }
+  }
+`;
+
+const arrowListStyle = css`
+  list-style-type: none;
+  padding-left: 0;
+
+  li {
+    position: relative;
+    padding-left: 1.75rem;
+
+    &::before {
+      content: '➡️';
+      position: absolute;
+      left: 0;
+      top: 0;
+      font-size: 1em;
+    }
+  }
+`;
+
+const crossMarkListStyle = css`
+  list-style-type: none;
+  padding-left: 0;
+
+  li {
+    position: relative;
+    padding-left: 1.75rem;
+
+    &::before {
+      content: '❌';
+      position: absolute;
+      left: 0;
+      top: 0;
+      font-size: 1em;
+    }
+  }
+`;
+
+const warningListStyle = css`
+  list-style-type: none;
+  padding-left: 0;
+
+  li {
+    position: relative;
+    padding-left: 1.75rem;
+
+    &::before {
+      content: '⚠️';
+      position: absolute;
+      left: 0;
+      top: 0;
+      font-size: 1em;
+    }
+  }
+`;
+
+const whiteCheckMarkListStyle = css`
+  list-style-type: none;
+  padding-left: 0;
+
+  li {
+    position: relative;
+    padding-left: 1.75rem;
+
+    &::before {
+      content: '✅';
+      position: absolute;
+      left: 0;
+      top: 0;
+      font-size: 1em;
+    }
+  }
+`;
+
+const starListStyle = css`
+  list-style-type: none;
+  padding-left: 0;
+
+  li {
+    position: relative;
+    padding-left: 1.75rem;
+
+    &::before {
+      content: '⭐';
+      position: absolute;
+      left: 0;
+      top: 0;
+      font-size: 1em;
     }
   }
 `;
@@ -60,19 +148,29 @@ const styles = {
   `,
 };
 
+// Map listStyle values to their CSS-in-JS styles
+const listStyleMap: Record<string, ReturnType<typeof css>> = {
+  none: checkmarkListStyle,
+  arrow: arrowListStyle,
+  star: starListStyle,
+  'cross-mark': crossMarkListStyle,
+  warning: warningListStyle,
+  'white-check-mark': whiteCheckMarkListStyle,
+};
+
 function createList(Tag, block: BLOCKS) {
   return function List(props: Slate.RenderElementProps) {
     const listStyle = (props.element as any).data?.listStyle as string | undefined;
-    const isCheckmarkList = listStyle === 'none';
+    const customStyle = listStyle ? listStyleMap[listStyle] : undefined;
     const inlineStyle =
-      listStyle && !isCheckmarkList
+      listStyle && !customStyle
         ? { listStyleType: listStyle as React.CSSProperties['listStyleType'] }
         : undefined;
 
     return (
       <Tag
         {...props.attributes}
-        className={cx(baseStyle, isCheckmarkList ? checkmarkListStyle : styles[block])}
+        className={cx(baseStyle, customStyle || styles[block])}
         style={inlineStyle}
       >
         {props.children}

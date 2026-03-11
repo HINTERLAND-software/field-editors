@@ -28,6 +28,7 @@ import {
   ToolbarDropdownSuperscriptButton,
   ToolbarSuperscriptButton,
 } from '../plugins/Marks/Superscript';
+import { ToolbarTextColorDropdown } from '../plugins/Marks/TextColor';
 import { ToolbarUnderlineButton } from '../plugins/Marks/Underline';
 import { ToolbarQuoteButton } from '../plugins/Quote';
 import { ToolbarTableButton } from '../plugins/Table';
@@ -174,6 +175,8 @@ const Toolbar = ({ isDisabled }: ToolbarProps) => {
         )}
 
         {shouldShowDropdown && <Dropdown sdk={sdk} isDisabled={isDisabled} />}
+
+        <ToolbarTextColorDropdown isDisabled={isDisabled} />
 
         <span className={styles.divider} />
         <ToolbarAlignmentButtons isDisabled={isDisabled} />

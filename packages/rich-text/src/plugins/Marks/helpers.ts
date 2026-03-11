@@ -4,10 +4,21 @@ import isHotkey from 'is-hotkey';
 import { isMarkActive } from '../../internal/queries';
 import { toggleMark } from '../../internal/transforms';
 import { PlateEditor, HotkeyPlugin, KeyboardHandler } from '../../internal/types';
+import { TEXT_COLOR_MARKS, TextColorMark } from './TextColor';
 
-export const toggleMarkAndDeactivateConflictingMarks = (editor: PlateEditor, mark: MARKS) => {
+export const toggleMarkAndDeactivateConflictingMarks = (
+  editor: PlateEditor,
+  mark: MARKS | TextColorMark,
+) => {
   const subs = [MARKS.SUPERSCRIPT, MARKS.SUBSCRIPT];
-  const clear = subs.includes(mark) ? subs : [];
+  const textColors: string[] = TEXT_COLOR_MARKS;
+
+  let clear: string[] = [];
+  if (subs.includes(mark as MARKS)) {
+    clear = subs;
+  } else if (textColors.includes(mark)) {
+    clear = TEXT_COLOR_MARKS.filter((m) => m !== mark);
+  }
   toggleMark(editor, { key: mark, clear });
 };
 

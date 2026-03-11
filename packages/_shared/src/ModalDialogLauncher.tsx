@@ -1,30 +1,32 @@
 /* eslint-disable @typescript-eslint/no-explicit-any, @typescript-eslint/no-use-before-define */
 
 import * as React from 'react';
-import ReactDOM from 'react-dom';
+import { createRoot, Root } from 'react-dom/client';
 
 import { OpenCustomWidgetOptions } from '@contentful/app-sdk';
 import { Modal, ModalHeader } from '@contentful/f36-components';
 import isNumber from 'lodash/isNumber';
 
 export function open(componentRenderer: (params: { onClose: Function; isShown: boolean }) => any) {
-  let rootDom: any = null;
+  let rootDom: HTMLDivElement | null = null;
+  let reactRoot: Root | null = null;
 
   const getRoot = () => {
     if (rootDom === null) {
       rootDom = document.createElement('div');
       rootDom.setAttribute('id', 'field-editor-modal-root');
       document.body.appendChild(rootDom);
+      reactRoot = createRoot(rootDom);
     }
-    return rootDom;
+    return { dom: rootDom, root: reactRoot! };
   };
 
   return new Promise((resolve) => {
     let currentConfig = { onClose, isShown: true };
 
     function render({ onClose, isShown }: { onClose: Function; isShown: boolean }) {
-      // eslint-disable-next-line -- TODO: use createRoot instead here
-      ReactDOM.render(componentRenderer({ onClose, isShown }), getRoot());
+      const { root } = getRoot();
+      root.render(componentRenderer({ onClose, isShown }));
     }
 
     function onClose(...args: any[]) {
@@ -36,7 +38,9 @@ export function open(componentRenderer: (params: { onClose: Function; isShown: b
       // eslint-disable-next-line -- TODO: describe this disable  @typescript-eslint/ban-ts-comment
       // @ts-ignore
       resolve(...args);
-      getRoot().remove();
+      const { dom, root } = getRoot();
+      root.unmount();
+      dom.remove();
     }
 
     render(currentConfig);

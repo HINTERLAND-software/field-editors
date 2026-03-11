@@ -22,6 +22,14 @@ export interface Text extends p.TText {
   [MARKS.SUPERSCRIPT]?: boolean;
   [MARKS.SUBSCRIPT]?: boolean;
   [MARKS.STRIKETHROUGH]?: boolean;
+  textColorWhite?: boolean;
+  textColorPrimaryDark?: boolean;
+  textColorPrimaryMiddle?: boolean;
+  textColorSecondaryDark?: boolean;
+  textColorSecondaryMiddle?: boolean;
+  textColorSecondaryLight?: boolean;
+  textColorAccentMiddle?: boolean;
+  textColorAccentDark?: boolean;
 }
 
 export interface Element extends p.TElement {

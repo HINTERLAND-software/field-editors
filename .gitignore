@@ -10,8 +10,8 @@ node_modules
 .rts2_cache_esm
 .rts2_cache_umd
 package-lock.json
-build/
 dist/
+build/
 cypress/videos
 cypress/screenshots
 cypress/reports

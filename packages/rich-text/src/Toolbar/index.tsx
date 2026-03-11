@@ -11,6 +11,7 @@ import { useContentfulEditor } from '../ContentfulEditorProvider';
 import { isNodeTypeSelected } from '../helpers/editor';
 import { isMarkEnabled, isNodeTypeEnabled } from '../helpers/validations';
 import { isMarkActive } from '../internal/queries';
+import { ToolbarAlignmentButtons } from '../plugins/Alignment';
 import { ToolbarHeadingButton } from '../plugins/Heading';
 import { ToolbarHrButton } from '../plugins/Hr';
 import { ToolbarHyperlinkButton } from '../plugins/Hyperlink';
@@ -27,6 +28,7 @@ import {
   ToolbarDropdownSuperscriptButton,
   ToolbarSuperscriptButton,
 } from '../plugins/Marks/Superscript';
+import { ToolbarTextColorDropdown } from '../plugins/Marks/TextColor';
 import { ToolbarUnderlineButton } from '../plugins/Marks/Underline';
 import { ToolbarQuoteButton } from '../plugins/Quote';
 import { ToolbarTableButton } from '../plugins/Table';
@@ -173,6 +175,11 @@ const Toolbar = ({ isDisabled }: ToolbarProps) => {
         )}
 
         {shouldShowDropdown && <Dropdown sdk={sdk} isDisabled={isDisabled} />}
+
+        <ToolbarTextColorDropdown isDisabled={isDisabled} />
+
+        <span className={styles.divider} />
+        <ToolbarAlignmentButtons isDisabled={isDisabled} />
 
         {validationInfo.isAnyHyperlinkEnabled && (
           <>

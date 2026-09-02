@@ -6,6 +6,8 @@ on:
   issue_comment:
     types: [created]
 
+permissions: {}
+
 jobs:
   remove_stale:
     if: contains(github.event.issue.labels.*.name, 'stale')
